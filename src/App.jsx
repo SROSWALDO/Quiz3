@@ -18,6 +18,9 @@ function App() {
   
   const handleSelectedAnswer = (option) => {
     dispatch(selectAnswer(currentQuestion,option))
+    setTimeout(() => {
+      dispatch(nextQuestion())
+    }, 1500)
     
   }
   
