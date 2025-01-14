@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 import { nextQuestion, restartQuiz, selectAnswer } from "./store/actions";
+import check from '../src/assets/check.svg'
+import x from '../src/assets/x.svg'
 
 function App() {
 
@@ -33,9 +35,11 @@ function App() {
           const isSelected = selectedResponses[currentQuestion] === option
 
           return (
-          <div className="flex justify-center" key={index} >
+          <div className="flex items-center justify-center" key={index} >
             <button disabled={selectedResponses[currentQuestion] !== undefined } onClick={() => handleSelectedAnswer(option)} className={`text-white p-1 border  w-[400px] my-2 text-xl  transition-colors ${isCorrect && isSelected ? 'border-green-600' : '' } ${isSelected && !isCorrect ? "border-red-500" : "" } ${!isSelected ? "border-white" : "" }  `}>
-            
+            {isSelected && (
+              <img className="absolute" src={isCorrect ? check : x} alt="" />
+            )}
             <p>{option}</p>
             </button>
 
