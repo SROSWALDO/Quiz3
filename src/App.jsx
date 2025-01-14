@@ -4,10 +4,11 @@ import { nextQuestion, restartQuiz, selectAnswer } from "./store/actions";
 
 function App() {
 
-  const { currentQuestion, score, questions } = useSelector(state => state)
+  const { currentQuestion, score, questions, selectedResponses } = useSelector(state => state)
   const question = questions[currentQuestion]
-  console.log(currentQuestion);
-  console.log(questions.length);
+  
+  
+
   
   
 
@@ -15,7 +16,7 @@ function App() {
   
   const handleSelectedAnswer = (option) => {
     dispatch(selectAnswer(currentQuestion,option))
-    dispatch(nextQuestion())
+    
   }
   
   
@@ -26,12 +27,25 @@ function App() {
       
       {currentQuestion < questions.length ? (
         <div className="mt-5">
-        <h1 className="text-5xl text-white">{question.question}</h1>
-        {question.options.map((option,index) => (
+        <h1 className="text-5xl text-white mb-5">{question.question}</h1>
+        {question.options.map((option,index) => { 
+          const isCorrect = question.answer === option;
+          const isSelected = selectedResponses[currentQuestion] === option
+
+          return (
           <div className="flex justify-center" key={index} >
-            <button onClick={() => handleSelectedAnswer(option)} className="text-white p-1 border border-white w-[400px] my-2 text-xl hover:bg-white hover:text-black transition-colors">{option}</button>
+            <button disabled={selectedResponses[currentQuestion] !== undefined } onClick={() => handleSelectedAnswer(option)} className={`text-white p-1 border  w-[400px] my-2 text-xl  transition-colors ${isCorrect && isSelected ? 'border-green-600' : '' } ${isSelected && !isCorrect ? "border-red-500" : "" } ${!isSelected ? "border-white" : "" }  `}>
+            
+            <p>{option}</p>
+            </button>
+
+            
           </div>
-        ))}
+        )}
+        )}
+        <div className="flex justify-center mt-3">
+        <button onClick={() => dispatch(nextQuestion())} className="text-white">Next Question</button>
+        </div>
       </div>
       ) : (
         <div>
